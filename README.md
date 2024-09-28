@@ -59,7 +59,7 @@ pip install -r requirements.txt
 [데이터셋 링크](https://drive.google.com/file/d/1ndQ5TLa8OEfsp-2mypHDBdSNyKaqW6qq/view?usp=sharing)
 
 
----
+&nbsp;
 ## 학습 절차
 
 #### 1. 모델 설정
@@ -103,7 +103,7 @@ loss_fn = FocalLoss(alpha=0.5, gamma=2)
 ```
 
 &nbsp;
-### Train 모델 성능 비교
+## Train 모델 성능 비교
 여러 딥러닝 모델에 대한 정확도를 비교하기 위한 실험을 진행하였으며, 각각의 모델이 테스트 데이터에서 얼마나 높은 정확도를 보였는지 그래프를 통해 시각화하였습니다. 아래 이미지는 실험에서 사용된 6개의 모델에 대한 정확도 비교 결과입니다.
 ![모델 성능 비교 그래프](./model_result/model_acc.png)
 #### 결과 해석
@@ -125,7 +125,7 @@ Caformer, Coatnet, Nfnet_final, Resnet101_888 모델들은 서로 높은 상관 
 이는 이 모델들이 유사한 예측 패턴을 가질 가능성을 시사 합니다.
 
 &nbsp;
-### 추론 및 앙상블
+## 추론 및 앙상블
 각 fold에서 가장 좋은 성능을 보인 모델을 저장한 후, 해당 모델들을 사용하여 앙상블 방식으로 예측을 수행합니다. 각 모델의 예측 결과를 평균 내어 최종 예측을 결정합니다.
 작업 과정
 1. 데이터 로드
