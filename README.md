@@ -1,4 +1,5 @@
 # ImageNet Sketch 분류
+![image](https://github.com/user-attachments/assets/12ea952b-0629-4407-b055-6a4d74370073)
 
 이 프로젝트는 Timm 라이브러리의 모델과 Albumentations를 사용하여 mageNet Sketch 모델을 학습하는 방법을 제공합니다. 5-fold 교차 검증을 통해 모델을 훈련하고, 각 fold에서 가장 성능이 좋은 모델을 저장합니다. 최종적으로 저장된 모델을 이용하여 앙상블 예측을 수행합니다.
 
@@ -77,14 +78,15 @@ model = model_selector.get_model().to(device)
 &nbsp;
 #### 2. K-Fold 교차 검증
 StratifiedKFold를 사용하여 5-Fold 교차 검증을 수행합니다. 
-각 fold마다 데이터셋을 분할하고, 학습과 검증을 반복합니다.
+각 fold마다 데이터셋을 분할하고, 학습과 검증을 반복하기 때문에 과적합을 줄이고 성능을 크게 높일 수 있었습니다.
 ```python
 skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
 ```
 각 fold에서 모델은 초기화되며, 학습은 Trainer 클래스를 통해 관리됩니다.
 &nbsp;
 #### 3. 데이터 증강
-Albumentations를 사용하여 훈련 이미지에 대한 다양한 데이터 증강을 적용합니다. 
+Albumentations를 사용하여 훈련 이미지에 대한 다양한 데이터 증강을 적용합니다.
+스케치 이미지 데이터의 특징을 반영하여 이미지의 선명도를 높이고 '선'을 강조하기 위해 **Sharpening**과 같은 기법을 활용하였습니다.
 ```python
 A.HorizontalFlip(p=0.5), 
 A.Rotate(limit=30),
@@ -97,7 +99,9 @@ A.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
 ```
 &nbsp;
 #### 4. 손실 함수
-클래스 불균형 문제를 해결하기 위해 Focal Loss를 사용합니다. Focal Loss는 작은 확률 값을 가지는 잘못된 예측에 더 큰 가중치를 부여하여 모델이 어려운 예측을 더 잘 수행할 수 있도록 만듭니다.
+클래스 불균형 문제를 해결하기 위해 Focal Loss를 사용합니다. Focal Loss는 **예측율이 낮은 클래스에 더 큰 가중치를 부여**하여 모델이 어려운 예측을 더 잘 수행할 수 있도록 만듭니다.
+
+$$Focal Loss = -\alpha (1-p)^{\gamma} log(p)$$
 ```python
 loss_fn = FocalLoss(alpha=0.5, gamma=2)
 ```
