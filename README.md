@@ -57,7 +57,6 @@ pip install -r requirements.txt
 2. 추론 데이터 구조
 추론을 위한 데이터는 data/test 폴더에 이미지 파일로 저장되며, test.csv 파일에 각 이미지의 경로 정보가 저장됩니다.
 &nbsp;
-[데이터셋 링크](https://drive.google.com/file/d/1ndQ5TLa8OEfsp-2mypHDBdSNyKaqW6qq/view?usp=sharing)
 
 
 &nbsp;
